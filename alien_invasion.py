@@ -26,13 +26,13 @@ class AlienInvasion:
             self._update_screen()
             # Surveiller les évements de clavier et de la souris.
             
-    def  _check_evebts(self):
+    def  _check_events(self):
         """Répondre aux événements de touche enfoncée et de la souris""" 
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()   
                     
-    def _updates_screen(self):                            
+    def _update_screen(self):                            
         """Mettre à jour les images à l'écran et passer au nouvel écran"""
         self.screen.fill(self.settings.bg_color)
         self.ship.blitme()
