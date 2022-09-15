@@ -3,7 +3,7 @@ import sys
 import pygame
 
 from settings import Settings
-
+from ship import Ship
 class AlienInvasion:
     """Classe globale pour gérer les ressources et le comportement du jeu."""
     
@@ -16,6 +16,8 @@ class AlienInvasion:
             (self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption("Alien Invasion")
         
+        self.ship = Ship(self)
+        
         
     def run_game(self):
         """Commencer la boucle principale du jeu."""
@@ -27,6 +29,7 @@ class AlienInvasion:
                     
             # Redessiner l'écran à chaque exécution de la boucle.
             self.screen.fill(self.settings.bg_color)
+            self.ship.blitme()
                     
             # Afficher l'écran le plus récemment dessiné.
             pygame.display.flip()
