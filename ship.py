@@ -1,7 +1,7 @@
 import pygame
 
 class Ship:
-    """Classe pourgérer la fusée."""
+    """Classe pour gérer la fusée."""
     
     def __ini__(self, ai_game):
         """Initialise la fusée et définis sa position initile"""

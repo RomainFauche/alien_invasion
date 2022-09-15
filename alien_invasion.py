@@ -22,17 +22,23 @@ class AlienInvasion:
     def run_game(self):
         """Commencer la boucle principale du jeu."""
         while True:
+            self._check_events()
+            self._update_screen()
             # Surveiller les évements de clavier et de la souris.
-            for event in pygame.event.get():
+            
+    def  _check_evebts(self):
+        """Répondre aux événements de touche enfoncée et de la souris""" 
+        for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    sys.exit()
+                    sys.exit()   
                     
-            # Redessiner l'écran à chaque exécution de la boucle.
-            self.screen.fill(self.settings.bg_color)
-            self.ship.blitme()
+    def _updates_screen(self):                            
+        """Mettre à jour les images à l'écran et passer au nouvel écran"""
+        self.screen.fill(self.settings.bg_color)
+        self.ship.blitme()
                     
-            # Afficher l'écran le plus récemment dessiné.
-            pygame.display.flip()
+        # Afficher l'écran le plus récemment dessiné.
+        pygame.display.flip()
             
 if __name__ == '__main__':
     # Créer une instance du jeu et lancer le jeu.
