@@ -5,6 +5,7 @@ import pygame
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+
 class AlienInvasion:
     """Classe globale pour gérer les ressources et le comportement du jeu."""
     
@@ -28,7 +29,7 @@ class AlienInvasion:
         while True:
             self._check_events()
             self.ship.update()
-            self.bullets.update()
+            self._update_bullets()            
             self._update_screen()
             # Surveiller les évements de clavier et de la souris.
             
@@ -63,9 +64,20 @@ class AlienInvasion:
             
     def _fire_bullet(self):
         """Créer une balle et l'ajouter dans le groupe de balles."""
-        new_bullet = Bullet(self)
-        self.bullets.add(new_bullet)                  
-                                                               
+        if len(self.bullets) < self.settings.bullet_allowed:
+            new_bullet = Bullet(self)
+            self.bullets.add(new_bullet)                  
+    
+    def _update_bullets(self):
+        """Mettre à jour la position des balles et supprimer les anciennes balles."""
+        # Mettre à jour les position des balles.
+        self.bullets.update()
+            
+        # Supprimer les balles qui ont disparu.
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)  
+                                                                     
     def _update_screen(self):                            
         """Mettre à jour les images à l'écran et passer au nouvel écran"""
         self.screen.fill(self.settings.bg_color)
