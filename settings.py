@@ -9,6 +9,7 @@ class Settings:
         
         # Paramètre de la fusée
         self.ship_speed = 8.5
+        self.ship_limit = 3
         
         # Paramètre des balles
         self.bullet_speed = 10.0

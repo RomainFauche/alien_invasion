@@ -11,7 +11,7 @@ class Alien(Sprite):
         self.settings = ai_game.settings
         
         # Charger l'image et définir son attribut rect.
-        self.image = pygame.image.load('images_1/alien.png')
+        self.image = pygame.image.load('images/drakkar.png')
         self.rect = self.image.get_rect()
         
         # Placer chaque nouvel alien près de l'angle supérieur gauche de l'écran.
