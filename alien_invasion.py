@@ -36,10 +36,12 @@ class AlienInvasion:
         """Commencer la boucle principale du jeu."""
         while True:
             self._check_events()
-            self.ship.update()
-            self._update_bullets()
-            self._update_aliens()            
-            self._update_screen()
+            
+            if self.stats.game_active:
+                self.ship.update()
+                self._update_bullets()
+                self._update_aliens()            
+                self._update_screen()
             # Surveiller les évements de clavier et de la souris.
             
     def  _check_events(self):
@@ -109,22 +111,38 @@ class AlienInvasion:
         # Rechercher les collisions entre un alien et le joueur.
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_hit()
+            
+        # Rechercher les aliens qui arrivent en bas de l'écran.
+        self._check_aliens_bottom()
              
     def _ship_hit(self):
         """Répondre à la percussion de la fusée par un alien."""
-        # Décrémenter ships_left.
-        self.stats.ships_left -= 1
+        if self.stats.ships_left > 0:
+            # Décrémenter ships_left.
+            self.stats.ships_left -= 1
         
-        # Supprimer les bales et les aliens restants.
-        self.aliens.empty()
-        self.bullets.empty()
+            # Supprimer les bales et les aliens restants.
+            self.aliens.empty()
+            self.bullets.empty()
         
-        # Créer une autre armée et centrer le joueur.
-        self._create_fleet()
-        self.ship.center_ship()
+            # Créer une autre armée et centrer le joueur.
+            self._create_fleet()
+            self.ship.center_ship()
         
-        # Faire une pause.
-        sleep(0.8)
+            # Faire une pause.
+            sleep(0.8)
+        else:
+            self.stats.game_active = False
+        
+        
+    def _check_aliens_bottom(self):
+        """Vérifier si des aliens ont atteint le bas de l'écran."""
+        screen_rect = self.screen.get_rect()
+        for alien in self.aliens.sprites():
+            if alien.rect.bottom >= screen_rect.bottom:
+                # Traiter ceci comme si la fusée avait été percutée.
+                self._ship_hit()
+                break
                 
     def _create_fleet(self):
         """Créer l'armée d'aliens."""

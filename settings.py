@@ -19,7 +19,7 @@ class Settings:
         self.bullet_allowed = 5
         
         # Paramètres des aliens
-        self.alien_speed = 1.0
+        self.alien_speed = 1.5
         self.fleet_drop_speed = 10
         # fleet_direction = 1 correspond à la droite ; 
         # -1 à la gauche
