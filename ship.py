@@ -10,7 +10,7 @@ class Ship:
         self.screen_rect = ai_game.screen.get_rect()
         
         # Charger l'image de fusée et obtenir son rect.
-        self.image = pygame.image.load('images/ship.bmp')
+        self.image = pygame.image.load('images/ship.png')
         self.rect = self.image.get_rect()
         
         # Placer chaque nouvelle fusée au centre et en bas de l'écran.
