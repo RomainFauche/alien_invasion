@@ -18,3 +18,14 @@ class Bullet(Sprite):
         
         # Stoker la position de la balle sous la forme d'une valeur décimal.
         self.y = float(self.rect.y)
+    
+    def update(self):
+        """Faire monter la balle à l'écran."""
+        # Mettre à jour la position décimale de la balle.
+        self.y -= self.settings.bullet_speed
+        # Mettre à jour la position de rect.
+        self.rect.y = self.y
+        
+    def draw_bullet(self):
+        """Dessiner la balle à l'écran."""
+        pygame.draw.rect(self.screen, self.color, self.rect)

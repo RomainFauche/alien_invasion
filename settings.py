@@ -12,6 +12,6 @@ class Settings:
         
         # Paramètre des balles
         self.bullet_speed = 1.0
-        self.bullet_width = 3
-        self.bullet_height = 15
-        self.bullet_color = (240, 0, 0)
+        self.bullet_width = 4
+        self.bullet_height = 20
+        self.bullet_color = (207, 164, 13)
