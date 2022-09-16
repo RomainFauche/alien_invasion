@@ -1,9 +1,8 @@
 import pygame
-
 class Ship:
     """Classe pour gérer la fusée."""
     
-    def __ini__(self, ai_game):
+    def __init__(self, ai_game):
         """Initialise la fusée et définis sa position initile"""
         
         self.screen = ai_game.screen
