@@ -139,6 +139,7 @@ class AlienInvasion:
                 self.stats.score += self.settings.alien_points * len(aliens)
                 
             self.sb.prep_score()
+            self.sb.check_high_score()
          
         if not self.aliens:
         #détruire les balles exisantes et créer une autre armée.
