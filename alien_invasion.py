@@ -5,6 +5,7 @@ import pygame
 
 from settings import Settings
 from game_stats import GameStats
+from scoreboard import Scoreboard
 from button import Button
 from ship import Ship
 from bullet import Bullet
@@ -26,8 +27,9 @@ class AlienInvasion:
        
         pygame.display.set_caption("Alien Invasion")
         
-        # Créer une instance pour stocker les statistiques du jeu.
+        # Créer une instance pour stocker les statistiques du jeu, et crée un panneau de score..
         self.stats = GameStats(self)
+        self.sb = Scoreboard(self)
         
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -69,9 +71,13 @@ class AlienInvasion:
         """Commence une autre partie lorsque le joueur clic sur le bouton"""
         button_cliked = self.play_button.rect.collidepoint(mouse_pos)
         if button_cliked and not self.stats.game_active:
+            # Réinitialise les paramètres du jeu.
+            self.settings.initialize_dynamic_settings()
+            
             # Réinitialise les statistique du jeu.
             self.stats.reset_stats()
             self.stats.game_active = True
+            self.sb.prep_score()
             
             # Supprime les balles et les aliens restants
             self.aliens.empty()
@@ -126,12 +132,20 @@ class AlienInvasion:
         # Si oui, suprimer la balle et l'alien.
         collisions = pygame.sprite.groupcollide(
             self.bullets, self.aliens, True, True
-            ) 
+            )
+        
+        if collisions:
+            for aliens in collisions.values():
+                self.stats.score += self.settings.alien_points * len(aliens)
+                
+            self.sb.prep_score()
+         
         if not self.aliens:
         #détruire les balles exisantes et créer une autre armée.
             self.bullets.empty()
             self._create_fleet()
-                
+            self.settings.increase_speed()
+                            
     def _update_aliens(self):
         """Vérifier si l'armée a atteint un bord , puis mettre à jour les positions de tous le aliens."""
         self._check_fleet_edges()
@@ -224,7 +238,10 @@ class AlienInvasion:
             bullet.draw_bullet()
         self.aliens.draw(self.screen)
         
-        # Déssine le boutton play si le jeux est inactif
+        # Dessine les informations de score.
+        self.sb.show_score()
+        
+        # Dessine le boutton play si le jeux est inactif
         if not self.stats.game_active:
             self.play_button.draw_button()
                     
