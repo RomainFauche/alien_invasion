@@ -11,7 +11,7 @@ class Settings:
         self.ship_limit = 3
         
         # Paramètre des balles        
-        self.bullet_width = 400
+        self.bullet_width = 5
         self.bullet_height = 20
         self.bullet_color = (236, 236, 236)
         self.bullet_allowed = 5
