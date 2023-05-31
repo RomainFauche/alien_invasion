@@ -1,10 +1,13 @@
 import pygame.font
+from pygame.sprite import Group
 
+from ship import Ship
 class Scoreboard:
     """Classe pour afficher les informations de score."""
     
     def __init__(self, ai_game):
         """Initialise les attributs du suivi de score"""
+        self.ai_game = ai_game
         self.screen = ai_game.screen
         self.screen_rect = self.screen.get_rect()
         self.settings = ai_game.settings
@@ -17,6 +20,8 @@ class Scoreboard:
         # Prépare les images de score initiale.
         self.prep_score()
         self.prep_high_score()
+        self.prep_level()
+        self.prep_ships()
         
     def prep_score(self):
         """Transforme le score en image restituée à l'écran"""
@@ -49,4 +54,27 @@ class Scoreboard:
     def show_score(self):
         """Dessine le score à l'écran"""
         self.screen.blit(self.score_image, self.score_rect)
-        self.screen.blit(self.high_score_image, self.high_score_rect)    
+        self.screen.blit(self.high_score_image, self.high_score_rect)
+        self.screen.blit(self.level_image, self.level_rect)
+        self.ships.draw(self.screen)  
+        
+    def prep_level(self):
+        """Transforme le niveau en une image restituée à l'écran"""
+        level_str = str(self.stats.level)
+        self.level_image = self.font.render(level_str, True,
+                                            self.text_color, self.settings.bg_color)
+        
+        #Placer le niveau sous le score
+        self.level_rect = self.level_image.get_rect()
+        self.level_rect.right = self.score_rect.right
+        self.level_rect.top = self.score_rect.bottom + 10
+        
+    def prep_ships(self):
+        """Afficher le nombre de coeur restants"""
+        self.ships = Group()
+        for ship_number in range(self.stats.ships_left):
+            ship = Ship(self.ai_game)
+            ship.rect.x = 10 + ship_number * ship.rect.width
+            ship.rect.y = 10
+            self.ships.add(ship)
+            

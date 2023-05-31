@@ -1,16 +1,17 @@
 import pygame
-class Ship:
+from pygame.sprite import Sprite
+class Ship(Sprite):
     """Classe pour gérer la fusée."""
     
     def __init__(self, ai_game):
         """Initialise la fusée et définis sa position initile"""
-        
+        super().__init__()
         self.screen = ai_game.screen
         self.settings = ai_game.settings
         self.screen_rect = ai_game.screen.get_rect()
         
         # Charger l'image de fusée et obtenir son rect.
-        self.image = pygame.image.load('images/viking.png')
+        self.image = pygame.image.load('images/ship.png')
         self.rect = self.image.get_rect()
         
         # Placer chaque nouvelle fusée au centre et en bas de l'écran.

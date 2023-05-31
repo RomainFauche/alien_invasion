@@ -10,7 +10,7 @@ from button import Button
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
-
+import sound_effect as se
 
 class AlienInvasion:
     """Classe globale pour gérer les ressources et le comportement du jeu."""
@@ -78,6 +78,8 @@ class AlienInvasion:
             self.stats.reset_stats()
             self.stats.game_active = True
             self.sb.prep_score()
+            self.sb.prep_level()
+            self.sb.prep_ships()
             
             # Supprime les balles et les aliens restants
             self.aliens.empty()
@@ -112,7 +114,8 @@ class AlienInvasion:
         """Créer une balle et l'ajouter dans le groupe de balles."""
         if len(self.bullets) < self.settings.bullet_allowed:
             new_bullet = Bullet(self)
-            self.bullets.add(new_bullet) 
+            self.bullets.add(new_bullet)
+            se.bullet_sound.play() 
             
     def _update_bullets(self):
         """Mettre à jour la position des balles et supprimer les anciennes balles."""
@@ -140,12 +143,17 @@ class AlienInvasion:
                 
             self.sb.prep_score()
             self.sb.check_high_score()
+            se.alien_sound.play()
          
         if not self.aliens:
         #détruire les balles exisantes et créer une autre armée.
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
+            
+            # Augmenter le niveau
+            self.stats.level += 1
+            self.sb.prep_level()
                             
     def _update_aliens(self):
         """Vérifier si l'armée a atteint un bord , puis mettre à jour les positions de tous le aliens."""
@@ -162,8 +170,9 @@ class AlienInvasion:
     def _ship_hit(self):
         """Répondre à la percussion de la fusée par un alien."""
         if self.stats.ships_left > 0:
-            # Décrémenter ships_left.
+            # Décrémenter ships_left et mettre à jour le score.
             self.stats.ships_left -= 1
+            self.sb.prep_ships()
         
             # Supprimer les bales et les aliens restants.
             self.aliens.empty()
@@ -174,7 +183,7 @@ class AlienInvasion:
             self.ship.center_ship()
         
             # Faire une pause.
-            sleep(0.8)
+            sleep(1.5)
         else:
             self.stats.game_active = False
             pygame.mouse.set_visible(True)
